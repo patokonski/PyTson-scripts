@@ -9,7 +9,7 @@ class testplugin(ts3plugin):
     version = "1.2.3"
     apiVersion = 21
     author = "ei2li"
-    description = "Parę opcji zautomatyzowanego wysyłania poke"
+    description = "A little bit of automation in poking"
     offersConfigure = False
     commandKeyword = ""
     infoTitle = ""
@@ -31,8 +31,8 @@ class testplugin(ts3plugin):
         self.sleep_time = 0.1
         self.wh_gr_list = [6, 20, 40]
         self.commands = ["!raidpoke", "!mpoke"]
-        self.commands_dic = {"!raidpoke" : "Wysyła powiadomienie do wszystkich na TS o rozpoczęciu raidu.\n Składnia !raidpoke lub !raidpoke <wiadomosc>",\
-                                "!mpoke" : "Wysyła x-razy poke do danego nicku.\nSkładnia: !mpoke <poked_client_name>,<number_of_pokes>"\
+        self.commands_dic = {"!raidpoke" : "Send poke to all visible clients.\nHow to use: !raidpoke or !raidpoke <message>",\
+                                "!mpoke" : "Send poke x times to given client.\nHow to use: !mpoke <poked_client_name>,<number_of_pokes>"\
         }
 
     def stop(self):
@@ -55,18 +55,13 @@ class testplugin(ts3plugin):
             self.from_name = fromName
             self.from_uid = fromUniqueIdentifier
             self.sleep_time = 0.1
-            if self.poke_name == "ei2li":
-                self.poke_name = fromName
-                self.poke_amount = 100
-                self.sleep_time = 1
-            ts3lib.printMessageToCurrentTab("Wysłano poke do %s w ilości sztuk %s" % (self.poke_name,self.poke_amount))
             (err, clist) = ts3lib.getClientList(schid)
             for key in clist:
                 (err_name, name) = ts3lib.getClientVariableAsString(schid, key, ts3defines.ClientProperties.CLIENT_NICKNAME)
                 if name == self.poke_name:
                     for i in range(0,self.poke_amount):
-                        if self.from_uid == "V+0iVJphtp34CY7Pjx05TUmfTB4=":
-                            err_poke = ts3lib.requestClientPoke(schid, key, "Chidorii/Nir przesyła pozdrowienia")
+                        if self.from_uid == "dummy_id_for_some_reasons":
+                            err_poke = ts3lib.requestClientPoke(schid, key, "dummy_message_for_some_reasons")
                         else:
                             err_poke = ts3lib.requestClientPoke(schid, key, "")
                         time.sleep(self.sleep_time)
@@ -76,7 +71,7 @@ class testplugin(ts3plugin):
             if any(True for x in groups if x in str(self.wh_gr_list)):
                 (err, clist) = ts3lib.getClientList(schid)
                 for key in clist:
-                    err_poke = ts3lib.requestClientPoke(schid, key, "%s zaczyna raid, wszystkich zainteresowanych zapraszamy na kanał raidowy" % fromName)
+                    err_poke = ts3lib.requestClientPoke(schid, key, "%s mass pokes." % fromName)
         elif message[0:9] == "!raidpoke" and len(message) > 9:
             msg = message[message.index(" ")+1:]
             (err, groups) = ts3lib.getClientVariableAsString(schid, fromID, ts3defines.ClientPropertiesRare.CLIENT_SERVERGROUPS)
@@ -84,4 +79,4 @@ class testplugin(ts3plugin):
             if any(True for x in groups if x in str(self.wh_gr_list)):
                 (err, clist) = ts3lib.getClientList(schid)
                 for key in clist:
-                    err_poke = ts3lib.requestClientPoke(schid, key, "%s informuje, że: %s" % (fromName,msg))
+                    err_poke = ts3lib.requestClientPoke(schid, key, "%s sends: %s" % (fromName,msg))
