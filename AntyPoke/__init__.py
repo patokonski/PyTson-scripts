@@ -11,7 +11,7 @@ class testplugin(ts3plugin):
     version = "1.2.3"
     apiVersion = 21
     author = "ei2li"
-    description = "AntyPoke"
+    description = "AntiPoke"
     offersConfigure = False
     commandKeyword = ""
     infoTitle = ""
@@ -19,9 +19,9 @@ class testplugin(ts3plugin):
     hotkeys = []  # [("keyword", "description")]
 
     def __init__(self):
-        ts3lib.printMessageToCurrentTab("[color=green]%s, Anty Poke został włączony[/color]") % str(time.ctime(time.time()))
+        ts3lib.printMessageToCurrentTab("[color=green]%s, Anti Poke on ...[/color]") % str(time.ctime(time.time()))
         self.white_list = [""]
-        self.msg = "Poke wyłączony, napisz na prv"
+        self.msg = "Poke disabled, write private message."
 
     def onClientPokeEvent(self, schid, fromClientID, pokerName, pokerUniqueIdentity, message, ffIgnored):
         if pokerUniqueIdentity not in self.white_list:
