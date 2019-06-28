@@ -10,7 +10,7 @@ class testplugin(ts3plugin):
     version = "1.2.3"
     apiVersion = 21
     author = "ei2li"
-    description = "Wykrywanie osób bez rang"
+    description = "Detecting client without server groups."
     offersConfigure = False
     commandKeyword = ""
     infoTitle = ""
@@ -19,7 +19,7 @@ class testplugin(ts3plugin):
 
 
     def __init__(self):
-        ts3lib.printMessageToCurrentTab("[color=green]%s, Skrypt 'NewMember' został włączony...[/color]" % str(time.ctime(time.time())))
+        ts3lib.printMessageToCurrentTab("[color=green]%s, NewMember on...[/color]" % str(time.ctime(time.time())))
         self.myuid = ""
         self.last_name = ""
         self.flagnm = 0
@@ -27,13 +27,13 @@ class testplugin(ts3plugin):
 
 
     def stop(self):
-        ts3lib.printMessageToCurrentTab("[color=red]Skrypt 'NewMember' został wyłączony...[/color]")
+        ts3lib.printMessageToCurrentTab("[color=red]Skrypt NewMember off...[/color]")
 
     def onClientIDsEvent(self, serverConnectionHandlerID, uniqueClientIdentifier, clientID, clientName):
         if self.flagnm == 1:
             self.flagnm = 0
             (err, clist) = ts3lib.getClientList(serverConnectionHandlerID)
-            msg = "Osoba bez rangi, nick: " + self.last_name
+            msg = "Client without groups, nick: " + self.last_name
             for key in clist:
                 (err, groups) = ts3lib.getClientVariableAsString(serverConnectionHandlerID, key, ts3defines.ClientPropertiesRare.CLIENT_SERVERGROUPS)
                 if any(True for x in groups if x in str(self.wh_gr_list)):
